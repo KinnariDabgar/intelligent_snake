@@ -126,10 +126,10 @@ def is_blocked(node):
 def gameover():
 
     # creating font object my_font
-    my_font = pygame.font.SysFont('jokerman', 40)
+    my_font = pygame.font.SysFont('impact', 50)
     # creating a text surface on which text
     # will be drawn
-    game_over_surface = my_font.render('Game Over', True, (128, 0, 0))
+    game_over_surface = my_font.render('G a m e    O v e r', True, (128, 0, 0))
     # create a rectangular object for the text
     # surface object
     game_over_rect = game_over_surface.get_rect()

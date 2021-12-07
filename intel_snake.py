@@ -60,13 +60,6 @@ exit_img = pygame.image.load('exit.png').convert_alpha()
 exit_button = button.Button(270, 450, exit_img, 0.5)
 
 
-def nearest(num):
-    if abs(math.floor(num / 10) - num / 10) < abs(math.ceil(num / 10) - num / 10):
-        return math.floor(num / 10) * 10
-    else:
-        return math.ceil(num / 10) * 10
-
-
 class Node:
 
     def __init__(self, current_pos, previous_pos, g, h):
@@ -79,6 +72,14 @@ class Node:
         return self.h + self.g
 
 
+def nearest(num):
+    if abs(math.floor(num / 10) - num / 10) < abs(math.ceil(num / 10) - num / 10):
+        return math.floor(num / 10) * 10
+
+    else:
+        return math.ceil(num / 10) * 10
+
+
 def heuristic_cost(node_pos):
     cost = abs(node_pos[0] - END[0]) + abs(node_pos[1] - END[1])
     return (cost / 10)
@@ -86,7 +87,6 @@ def heuristic_cost(node_pos):
 
 def get_best_node(open_set):
     firstEnter = True
-
     for node in open_set.values():
         if firstEnter or node.f() < bestF:
             firstEnter = False
@@ -97,13 +97,11 @@ def get_best_node(open_set):
 
 def get_adjacent_node(node):
     list_of_node = []
-
     for dir in DIRECTIONS:
         new_pos = (node.current_pos[0] + dir[0], node.current_pos[1] + dir[1])
         if 0 <= new_pos[0] <= 621 and 0 <= new_pos[1] <= 499:
             list_of_node.append(
                 Node(new_pos, node.current_pos, node.g + 1, heuristic_cost(new_pos)))
-
     return list_of_node
 
 
@@ -132,10 +130,10 @@ def show_score(x, y):
 def gameover():
 
     # creating font object my_font
-    my_font = pygame.font.SysFont('jokerman', 40)
+    my_font = pygame.font.SysFont('impact', 50)
     # creating a text surface on which text
     # will be drawn
-    game_over_surface = my_font.render('Game Over', True, (128, 0, 0))
+    game_over_surface = my_font.render('G a m e    O v e r', True, (128, 0, 0))
     # create a rectangular object for the text
     # surface object
     game_over_rect = game_over_surface.get_rect()
@@ -153,11 +151,9 @@ def main(start_pos):
     open_set = {str(start_pos): Node(
         start_pos, start_pos, 0, heuristic_cost(start_pos))}
     closed_set = {}
-
     while True:
         test_node = get_best_node(open_set)
         closed_set[str(test_node.current_pos)] = test_node
-
         if test_node.current_pos == END:
             return min_path(closed_set)
 
@@ -198,6 +194,7 @@ while running:
                     if(new_pos_x, new_pos_y) in snake:
                         gameover()
                     snake_move = True
+                    # stores the nearest neighbour value
                     END = (new_pos_x, new_pos_y)
                     START = snake[3]
                     path = main(START)
